@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A playful, practical 12-month AWS DevOps roadmap with XP, projects, and a pixel-art quest log.">
+  <title>Cloudbound: DevOps Roadmap Quest Log</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy-0:#080d1c; --navy-1:#101a35; --navy-2:#17254a; --slate-0:#263555; --slate-1:#34466d;
+      --amber:#ffd166; --orange:#f28c28; --cream:#fff2cf; --emerald:#35d07f; --red:#ff6677; --cyan:#7bdff2;
+      --level-1:#ffd166; --level-2:#7bdff2; --level-3:#c77dff; --level-4:#80ed99;
+      --font-display:"Press Start 2P", ui-monospace, monospace; --font-body:"VT323", ui-monospace, "Courier New", monospace;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--cream); background-color:var(--navy-0); font-family:var(--font-body); font-size:21px; line-height:1.5; }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.35; background:transparent; box-shadow:12vw 10vh 0 0 var(--slate-1), 28vw 24vh 0 0 var(--slate-1), 46vw 8vh 0 0 var(--slate-1), 64vw 32vh 0 0 var(--slate-1), 82vw 14vh 0 0 var(--slate-1), 18vw 68vh 0 0 var(--slate-1), 52vw 78vh 0 0 var(--slate-1), 90vw 62vh 0 0 var(--slate-1); }
+    body.readable { font-family:system-ui, -apple-system, Segoe UI, sans-serif; font-size:16px; }
+    body.readable .pixel, body.readable h1, body.readable h2, body.readable h3, body.readable h4, body.readable button, body.readable .hud-label, body.readable .rank-name { font-family:system-ui, -apple-system, Segoe UI, sans-serif; letter-spacing:.02em; }
+    h1,h2,h3,h4,.pixel,.hud-label,.rank-name,button { font-family:var(--font-display); letter-spacing:.02em; }
+    h1,h2,h3,h4,p { margin-top:0; }
+    a { color:var(--cyan); }
+    button,input,select,textarea { font:inherit; }
+    button { color:var(--cream); background:var(--slate-0); border:2px solid var(--amber); padding:.75rem 1rem; cursor:pointer; box-shadow:4px 4px 0 #000; min-height:44px; }
+    button:hover { background:var(--slate-1); }
+    button:active { transform:translate(2px,2px); box-shadow:2px 2px 0 #000; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline:4px dashed var(--amber); outline-offset:3px; }
+    .wrap { width:min(1180px, calc(100% - 2rem)); margin:0 auto; }
+    .panel { background:var(--navy-1); border:4px solid var(--slate-1); box-shadow:4px 4px 0 #000; padding:1.2rem; position:relative; }
+    .panel::before { content:""; position:absolute; inset:4px; border:2px solid var(--slate-0); pointer-events:none; }
+    .panel > * { position:relative; }
+    .eyebrow { color:var(--amber); font-family:var(--font-display); font-size:11px; text-transform:uppercase; }
+    .muted { color:#c6d0e7; }
+    .tiny { font-size:.86rem; }
+    .grid { display:grid; gap:1rem; }
+    .grid-2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .grid-3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    header { padding:5.5rem 0 2rem; }
+    .hero { display:grid; grid-template-columns:1.25fr .75fr; gap:1rem; align-items:stretch; }
+    .hero h1 { font-size:clamp(1.35rem, 3vw, 2.4rem); line-height:1.5; color:var(--amber); }
+    .hero-art { display:flex; align-items:center; justify-content:center; min-height:260px; }
+    .hero-art svg { width:min(220px,70%); image-rendering:pixelated; shape-rendering:crispEdges; }
+    .dialogue { min-height:180px; }
+    .dialogue-text { min-height:116px; }
+    .start { color:var(--navy-0); background:var(--amber); animation:blink 1.2s steps(1) infinite; }
+    .hud { position:fixed; z-index:20; top:0; left:0; right:0; background:var(--navy-2); border-bottom:4px solid var(--amber); box-shadow:0 4px 0 #000; }
+    .hud-inner { width:min(1180px, calc(100% - 1rem)); margin:auto; min-height:70px; display:grid; grid-template-columns:auto 1fr auto auto; gap:.75rem; align-items:center; }
+    .mascot { width:42px; height:42px; display:grid; place-items:center; border:2px solid var(--amber); background:var(--navy-1); }
+    .hud-main { min-width:0; }
+    .rank-line { display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; }
+    .rank-name { color:var(--amber); font-size:11px; }
+    .hud-label { font-size:10px; color:var(--cyan); }
+    .xp-line { display:flex; gap:.5rem; align-items:center; }
+    .xp { white-space:nowrap; font-size:18px; }
+    .bar { display:grid; grid-template-columns:repeat(24,1fr); gap:2px; min-width:150px; }
+    .bar i { height:12px; background:var(--slate-0); border:1px solid var(--navy-0); }
+    .bar i.on { background:var(--emerald); }
+    .hud-actions { display:flex; gap:.35rem; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+    .hud-actions button { padding:.45rem .55rem; min-height:38px; font-size:10px; box-shadow:2px 2px 0 #000; }
+    .flame { color:var(--orange); font-family:var(--font-display); font-size:11px; }
+    main { padding-bottom:3rem; }
+    section { scroll-margin-top:90px; margin:1.5rem 0; }
+    .section-heading { display:flex; justify-content:space-between; gap:1rem; align-items:end; margin-bottom:1rem; }
+    .section-heading h2 { color:var(--amber); font-size:1.1rem; margin-bottom:.2rem; }
+    .toolbar { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .phase { margin:1rem 0; border-left:8px solid var(--level-1); }
+    .phase[data-level="2"] { border-color:var(--level-2); }
+    .phase[data-level="3"] { border-color:var(--level-3); }
+    .phase[data-level="4"] { border-color:var(--level-4); }
+    details > summary { cursor:pointer; list-style:none; padding:.25rem; }
+    details > summary::-webkit-details-marker { display:none; }
+    .summary-row { display:flex; align-items:center; gap:.75rem; justify-content:space-between; }
+    .summary-main { display:flex; gap:.65rem; align-items:center; min-width:0; }
+    .icon-box { width:32px; height:32px; display:grid; place-items:center; border:2px solid var(--amber); color:var(--amber); background:var(--navy-0); font-family:var(--font-display); font-size:11px; flex:none; }
+    .phase h3 { margin:.2rem 0; font-size:1rem; }
+    .tagline { color:var(--cyan); }
+    .objective { color:var(--cream); }
+    .subphase { margin:1rem 0 0 1rem; background:var(--navy-2); border:2px solid var(--slate-1); padding:.75rem; }
+    .subphase h4 { color:var(--amber); font-size:.85rem; margin:.2rem 0; }
+    .module { margin:.75rem 0 0 1rem; padding:.7rem; border:2px solid var(--slate-0); background:var(--navy-1); }
+    .module h5 { color:var(--cyan); margin:.1rem 0 .4rem; font-size:.8rem; }
+    .tasks { list-style:none; padding:0; margin:.4rem 0 0; display:grid; gap:.4rem; }
+    .task { display:grid; grid-template-columns:28px 1fr auto; gap:.6rem; align-items:start; padding:.45rem; border:2px solid transparent; }
+    .task:hover { border-color:var(--slate-1); background:var(--navy-2); }
+    .task.done { color:#b9f5ce; }
+    .task.done .task-text { text-decoration:line-through; text-decoration-color:var(--emerald); }
+    .task input { appearance:none; width:24px; height:24px; border:3px solid var(--cream); background:var(--navy-0); cursor:pointer; margin:0; }
+    .task input:checked { background:var(--emerald); border-color:var(--emerald); position:relative; }
+    .task input:checked::after { content:"✓"; color:var(--navy-0); font-family:var(--font-display); font-size:14px; position:absolute; left:2px; top:-2px; }
+    .task-type { color:var(--orange); font-size:.8rem; white-space:nowrap; }
+    .badge { display:inline-block; padding:.15rem .35rem; border:1px solid var(--amber); color:var(--amber); font-size:.75rem; }
+    .callout { border:3px solid var(--amber); background:var(--navy-2); padding:.75rem; margin-top:.75rem; }
+    .callout strong { color:var(--amber); font-family:var(--font-display); font-size:.75rem; }
+    .boss { display:grid; grid-template-columns:100px 1fr; gap:1rem; align-items:center; border-color:var(--red); }
+    .boss svg { width:90px; image-rendering:pixelated; shape-rendering:crispEdges; }
+    .boss h3 { color:var(--red); font-size:.9rem; }
+    .boss.defeated { border-color:var(--emerald); }
+    .project { border-color:var(--orange); background:#1b2342; }
+    .project h3 { color:var(--orange); font-size:.9rem; }
+    .project-chest { font-size:3rem; filter:none; }
+    .project ul { margin:.4rem 0; padding-left:1.2rem; }
+    .planner input[type="range"] { width:100%; accent-color:var(--amber); }
+    .range-row { display:grid; grid-template-columns:1fr 70px; gap:.7rem; align-items:center; }
+    .planner label { display:block; margin:.7rem 0; }
+    input[type="text"], textarea { width:100%; color:var(--cream); background:var(--navy-0); border:2px solid var(--slate-1); padding:.6rem; }
+    textarea { min-height:80px; resize:vertical; }
+    .support-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .toast-region { position:fixed; right:1rem; bottom:1rem; z-index:30; display:grid; gap:.5rem; max-width:min(360px, calc(100% - 2rem)); }
+    .toast { background:var(--navy-2); border:3px solid var(--amber); box-shadow:4px 4px 0 #000; padding:.7rem; animation:toast-in .25s steps(3); }
+    .toast strong { color:var(--amber); font-family:var(--font-display); font-size:.75rem; }
+    .overlay { position:fixed; inset:0; z-index:40; display:none; place-items:center; padding:1rem; background:rgba(8,13,28,.88); }
+    .overlay.show { display:grid; }
+    .overlay-card { max-width:620px; text-align:center; }
+    .overlay-card h2 { color:var(--amber); font-size:1.2rem; }
+    .countdown { color:var(--orange); font-family:var(--font-display); font-size:1.5rem; }
+    footer { border-top:2px solid var(--slate-1); padding:1.5rem 0 3rem; color:#c6d0e7; }
+    @keyframes blink { 0%,45%{opacity:1} 46%,100%{opacity:.55} }
+    @keyframes toast-in { from { transform:translateX(20px); opacity:0 } to { transform:none; opacity:1 } }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .level-up { animation:bounce .5s steps(3) 3; }
+    .confetti { position:fixed; width:8px; height:8px; z-index:50; top:-12px; animation:fall 1.6s steps(8) forwards; }
+    @keyframes fall { to { transform:translateY(105vh) rotate(180deg); } }
+    @media (prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation-duration:.001ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; }
+    }
+    @media (max-width:800px) {
+      .hero,.grid-2,.grid-3,.support-grid { grid-template-columns:1fr; }
+      .hud-inner { grid-template-columns:auto 1fr; padding:.35rem 0; }
+      .hud-actions { grid-column:1/-1; justify-content:flex-start; }
+      .bar { min-width:100px; }
+      header { padding-top:10rem; }
+      .task { grid-template-columns:28px 1fr; }
+      .task-type { grid-column:2; }
+    }
+    @media (max-width:460px) {
+      body { font-size:19px; }
+      .wrap { width:min(100% - 1rem, 1180px); }
+      .panel { padding:.8rem; }
+      .hud-actions button { font-size:9px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="hud" class="hud" aria-label="Progress HUD">
+    <div class="hud-inner">
+      <div id="mascot" class="mascot" aria-hidden="true"></div>
+      <div class="hud-main">
+        <div class="rank-line"><span id="rankBadge" class="icon-box" role="button" tabindex="0" aria-label="Rank badge"></span><span id="rankName" class="rank-name"></span><span id="rankSubtitle" class="muted tiny"></span></div>
+        <div class="xp-line"><span id="xpText" class="xp">0 XP</span><span class="hud-label">NEXT <span id="nextXp">0</span></span><span id="progressBar" class="bar" role="progressbar" aria-label="Roadmap progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></span></div>
+      </div>
+      <div class="flame" title="Weekly streak">🔥 <span id="streak">0</span>w</div>
+      <div class="hud-actions">
+        <button id="jokesBtn" type="button">Jokes: On</button>
+        <button id="readableBtn" type="button">Readable: Off</button>
+        <button id="soundBtn" type="button">Sound: Off</button>
+        <button id="nextBtn" type="button">Next micro-step</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="wrap">
+    <div class="hero">
+      <div class="panel dialogue">
+        <div class="eyebrow">Game intro // save slot 01</div>
+        <h1>The Terminal Traveler's Upgrade</h1>
+        <div id="storyText" class="dialogue-text" aria-live="polite"></div>
+        <button id="startBtn" class="start pixel" type="button">PRESS START ▶</button>
+      </div>
+      <div class="panel hero-art" aria-label="Pixel terminal traveler">
+        <svg viewBox="0 0 16 16" role="img" aria-label="Pixel terminal traveler">
+          <rect width="16" height="16" fill="#101a35"/><path fill="#fff2cf" d="M5 2h6v1h2v2h1v6h-1v2h-2v1H5v-1H3v-2H2V5h1V3h2z"/><path fill="#080d1c" d="M4 5h8v5H4z"/><path fill="#35d07f" d="M5 6h2v1H5v1h2v1H5z"/><path fill="#f28c28" d="M8 12h3v1H8z"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="roadmap">
+      <div class="section-heading">
+        <div><div class="eyebrow">Quest map // 12 months</div><h2>Curriculum Worlds</h2><p class="muted">3–4 hours a week. Serious structure, a little pixel dust.</p></div>
+        <div class="toolbar"><button id="expandBtn" type="button">Expand all</button><button id="collapseBtn" type="button">Collapse all</button></div>
+      </div>
+      <div id="curriculum"></div>
+    </section>
+
+    <section id="projects">
+      <div class="section-heading"><div><div class="eyebrow">Treasure room // portfolio</div><h2>Project Blueprint Cards</h2><p class="muted">Three proof-of-work builds designed to be easy to explain in an interview.</p></div></div>
+      <div id="projectGrid" class="grid grid-3"></div>
+    </section>
+
+    <section id="support">
+      <div class="section-heading"><div><div class="eyebrow">Inventory // real life support</div><h2>Study Loadout</h2></div></div>
+      <div class="support-grid">
+        <div class="panel planner">
+          <h3 class="pixel">Weekly time budget</h3>
+          <p>Default loadout: 3.5 hours. Adjust the sliders; the percentages stay honest.</p>
+          <label>Video lessons <span id="videoVal">30%</span><div class="range-row"><input id="videoRange" type="range" min="10" max="60" value="30"><output></output></div></label>
+          <label>Hands-on labs / Cloud Quest <span id="labVal">50%</span><div class="range-row"><input id="labRange" type="range" min="20" max="70" value="50"><output></output></div></label>
+          <label>Docs &amp; review <span id="reviewVal">20%</span><div class="range-row"><input id="reviewRange" type="range" min="10" max="40" value="20"><output></output></div></label>
+          <div class="toolbar"><button type="button" class="preset" data-preset="standard">Standard week</button><button type="button" class="preset" data-preset="minimum">Minimum viable 90m</button><button type="button" class="preset" data-preset="catchup">Catch-up week</button></div>
+          <p id="plannerNote" class="callout"><strong>Builder Pro-Tip:</strong> Protect the lab block first. Motivation is a flaky service; calendars are boring but highly available.</p>
+        </div>
+        <div class="panel">
+          <h3 class="pixel">Pick your first session</h3>
+          <p>Choose a time box and get one matching unchecked objective.</p>
+          <div class="toolbar"><button class="sessionBtn" data-min="15" type="button">15 min</button><button class="sessionBtn" data-min="30" type="button">30 min</button><button class="sessionBtn" data-min="60" type="button">60 min</button></div>
+          <div id="sessionPick" class="callout" aria-live="polite">No quest selected yet. The party is waiting.</div>
+          <h3 class="pixel">When and where will you study?</h3>
+          <textarea id="studyPlan" placeholder="Example: Tue/Thu, 7:30pm, kitchen table"></textarea>
+          <p class="tiny muted">Saved locally when storage is available.</p>
+          <button id="distractedBtn" type="button">I'm getting distracted</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><div class="eyebrow">Save point // controls</div><h2>Progress Controls</h2></div></div>
+      <div class="toolbar"><button id="exportBtn" type="button">Export progress JSON</button><button id="importBtn" type="button">Import progress JSON</button><button id="resetBtn" type="button">Reset progress</button><input id="importFile" type="file" accept="application/json" hidden></div>
+      <p class="tiny muted">Export is a handy backup if your browser decides memory is a premium feature.</p>
+    </section>
+  </main>
+
+  <footer class="wrap"><p>Built with caffeine, curiosity, and zero semicolons of regret. Insert coin to continue.</p></footer>
+  <div id="toasts" class="toast-region" aria-live="polite"></div>
+  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="overlayTitle">
+    <div class="panel overlay-card"><h2 id="overlayTitle"></h2><p id="overlayText"></p><div id="countdown" class="countdown"></div><button id="overlayClose" type="button">Continue quest</button></div>
+  </div>
+
+  <script>
+    "use strict";
+    const ICONS = { phase:"⚑", sub:"▣", module:"▤", task:"☑" };
+    const RANKS = [
+      {min:0,name:"Level 1 Terminal Tinkerer",short:"Terminal Tinkerer",sub:"Has typed `ls` 4,000 times, still enjoys it.",sprite:"T"},
+      {min:220,name:"Level 2 Cloud Explorer",short:"Cloud Explorer",sub:"Knows the cloud is just someone else's computer, now rents it on purpose.",sprite:"☁"},
+      {min:520,name:"Level 3 Automation Apprentice",short:"Automation Apprentice",sub:"Refuses to do anything twice.",sprite:"⚙"},
+      {min:900,name:"Level 4 Pipeline Builder",short:"Pipeline Builder",sub:"Pushes code and sleeps well.",sprite:"↯"},
+      {min:1350,name:"Level 5 Job-Ready Cloud DevOps Engineer",short:"Job-Ready Engineer",sub:"Has opinions about YAML. Hireable anyway.",sprite:"♛"}
+    ];
+    const HUMOR = {
+      story: [
+        ["The hero has 14 terminal tabs open and calls it organized.","The terminal is still a powerful learning environment."],
+        ["They hear “DevOps” and picture a wizard who never sleeps and drinks cold brew intravenously.","DevOps combines development and operations practices."],
+        ["Then the old Linux habits appear: files, permissions, processes, pipes. Plot twist: those are foundations, not impostor symptoms.","Linux fundamentals transfer directly to cloud operations."],
+        ["AWS Skill Builder turns the cloud into a playground, with labs instead of mysterious boss music.","AWS Skill Builder provides guided learning and hands-on practice."]
+      ],
+      toasts: [
+        ["Task done. Your future boss just felt a disturbance in the force.","Task complete. Keep building evidence of skill."],["+20 XP. Responsible adult behavior detected.","XP awarded for completing a practical step."],["Another one down. The cloud bows slightly.","Another objective is complete."],["Save point reached. Your browser is proud.","Progress saved for this session."],["The terminal traveler advances one square.","Your roadmap progress increased."],["A wild checkbox appears. You defeated it.","Objective complete."],["No servers were harmed in this learning session.","Learning progress recorded."],["You pressed the button and got results. Automation energy.","A repeatable step is now complete."],["The YAML spirits approve your indentation.","Configuration practice complete."],["A tiny pipeline somewhere just stood up straighter.","Delivery practice complete."],["The backlog has one fewer goblin.","One more task is finished."],["Cloud knowledge cached successfully.","Your completed task is recorded."],["Achievement unlocked: did the thing.","Objective complete."],["The rubber duck nods with professional concern.","Your explanation practice counts."],["You have entered the productive timeline.","Your progress is moving forward."],["The lab door opens. No cape required.","Hands-on progress recorded."],["Your future portfolio just got less theoretical.","A project step is complete."],["You found the next tile in the dungeon.","Roadmap progress increased."],["Sudo is impressed, but still waiting for Phase 4.","Keep stacking fundamentals."],["The cloud did not bill you for this checkbox.","Learning progress recorded."],["One small commit for you, one giant leap for employability.","Your skill evidence grows."],["A process completed successfully. Suspiciously satisfying.","Objective complete."],["You are now 1 task harder to distract.","Progress saved."],["The terminal traveler says: nice.","Objective complete."],["The invisible stand-up meeting is pleased.","Your roadmap moved forward."]
+      ],
+      distract: [
+        "Close the 11th tab. Yes, that one. The cat video will still exist in 25 minutes.",
+        "Open the lab and read only the first step. Momentum is allowed to be tiny.",
+        "Your brain requested a side quest. Decline politely and run one command.",
+        "Five minutes of focus beats a heroic plan that never boots.",
+        "The cloud has infinite scale; your attention does not. Pick one checkbox.",
+        "You do not need a montage. You need the next 15-minute tile.",
+        "Put the phone face down like it owes you money.",
+        "A quick YouTube second is a known time-travel portal. Choose the lab."
+      ]
+    };
+    const phases = [
+      {id:"p1",num:1,title:"Cloud Foundations & First Win",weeks:"Months 1–3",objective:"Build a safe AWS foundation, explain core cloud services, and pass the AWS Certified Cloud Practitioner (CLF-C02).",tagline:"Where the cloud stops being fog and starts being a checklist.",boss:{name:"The Billing Alarm Dragon",taunt:"I only wake up when you forget to turn things off.",win:"Billing alarms are configured and Cloud Practitioner is passed. The dragon is now on a budget."},subs:[
+        {id:"p1-s1",title:"Stage 1-1: Cloud map",weeks:"Weeks 1–5",objective:"Explain shared responsibility, regions, pricing, and identity controls in plain English.",tagline:"Every dungeon needs a map and a cost warning.",modules:[
+          {id:"p1-s1-m1",title:"AWS Cloud Essentials",objective:"Describe cloud concepts and select a safe first service.",url:"https://aws.amazon.com/training/digital/aws-cloud-essentials/",tasks:[
+            ["learn","Watch the AWS Cloud Essentials overview and write five cloud terms in your own words.",30],
+            ["recall","Close the tab and explain shared responsibility in three sentences.",15],
+            ["learn","Create a one-page map of regions, Availability Zones, and edge locations.",30]
+          ]},
+          {id:"p1-s1-m2",title:"Identity and cost guardrails",objective:"Use IAM and budgets to reduce accidental access and spending.",url:"https://aws.amazon.com/iam/",tasks:[
+            ["learn","Explain IAM as the cloud's who-is-allowed-to-do-what system.",20],
+            ["build","Open the AWS billing console, set a budget alert, and record the threshold.",25],
+            ["recall","List three least-privilege rules without looking them up.",15]
+          ]}
+        ]},
+        {id:"p1-s2",title:"Stage 1-2: First win",weeks:"Weeks 6–12",objective:"Launch, inspect, and secure a small AWS workload while preparing for the CLF-C02 exam.",tagline:"The first deploy is mostly menus, confidence, and not deleting the wrong thing.",modules:[
+          {id:"p1-s2-m1",title:"Compute, storage, and networking",objective:"Choose between EC2, S3, and VPC building blocks.",url:"https://aws.amazon.com/getting-started/",tasks:[
+            ["learn","Complete a Cloud Quest or Builder Lab on compute and storage basics.",45],
+            ["build","Host a simple static page in S3, then document the access choice.",45],
+            ["teach","Write a five-line post comparing EC2 and S3.",20]
+          ]},
+          {id:"p1-s2-m2",title:"CLF-C02 exam prep",objective:"Use official practice questions to close knowledge gaps.",url:"https://aws.amazon.com/certification/certified-cloud-practitioner/",tasks:[
+            ["recall","Take a timed official practice set and sort misses into four domains.",45],
+            ["learn","Review every missed concept with the official exam guide.",30],
+            ["build","Schedule the CLF-C02 exam or record your target date and study plan.",15]
+          ]}
+        ]}
+      ]},
+      {id:"p2",num:2,title:"Scripting, Git & Cloud Ops",weeks:"Months 4–6",objective:"Turn Linux habits into repeatable Bash, Git, and operational workflows.",tagline:"Where you meet code and discover it is Linux commands in a trench coat.",boss:{name:"The YAML Hydra",taunt:"I grow two spaces every time you guess at indentation.",win:"A tested Git workflow and operational runbook have defeated the Hydra."},subs:[
+        {id:"p2-s1",title:"Stage 2-1: Automate the boring",weeks:"Weeks 13–17",objective:"Write small Bash scripts, inspect logs, and explain safe shell habits.",tagline:"The best script is the one you do not have to repeat.",modules:[
+          {id:"p2-s1-m1",title:"Bash for operators",objective:"Use variables, loops, exit codes, and pipes to automate checks.",url:"https://linuxjourney.com/",tasks:[
+            ["learn","Follow a Linux Journey shell lesson on variables, pipes, and redirection.",30],
+            ["build","Write a Bash health-check script with a clear exit code.",45],
+            ["teach","Explain why quoting variables and checking exit codes matters.",20]
+          ]},
+          {id:"p2-s1-m2",title:"Git and GitHub Skills",objective:"Commit, branch, merge, and recover using a clean workflow.",url:"https://skills.github.com/",tasks:[
+            ["learn","Complete a GitHub Skills exercise on pull requests or branching.",45],
+            ["build","Create a repo with README, issue, branch, commit, and pull request.",45],
+            ["recall","Close the tab and describe fetch, pull, merge, and push.",15]
+          ]}
+        ]},
+        {id:"p2-s2",title:"Stage 2-2: Operate a service",weeks:"Weeks 18–26",objective:"Collect logs and metrics, troubleshoot a failure, and write an operational handoff.",tagline:"You cannot monitor vibes, although teams have tried.",modules:[
+          {id:"p2-s2-m1",title:"Cloud operations basics",objective:"Use CloudWatch concepts to detect and investigate a fault.",url:"https://aws.amazon.com/cloudwatch/",tasks:[
+            ["learn","Read the CloudWatch overview and define metric, log, alarm, and dashboard.",30],
+            ["build","Create a dashboard or sketch one with four useful service signals.",45],
+            ["recall","Troubleshoot a simulated 5xx spike in three ordered steps.",20]
+          ]},
+          {id:"p2-s2-m2",title:"Project: Log Lantern",objective:"Build a small, documented health-check and incident response workflow.",url:"https://docs.github.com/en/get-started/start-your-journey",tasks:[
+            ["project","Create a repo, architecture sketch, and issue checklist for Log Lantern.",30],
+            ["project","Add a Bash check, sample logs, and a README runbook.",45],
+            ["project","Publish a cost note and lessons learned in the README.",30]
+          ]}
+        ]}
+      ]},
+      {id:"p3",num:3,title:"Core DevOps, Automation & Containers",weeks:"Months 7–9",objective:"Package workloads, provision infrastructure safely, and ship through an automated pipeline.",tagline:"Where the laptop graduates from clever to repeatable.",boss:{name:"The Container Kraken",taunt:"It works on my machine. Unfortunately, your machine is not production.",win:"A containerized service and automated delivery path have tamed the Kraken."},subs:[
+        {id:"p3-s1",title:"Stage 3-1: Infrastructure as code",weeks:"Weeks 27–31",objective:"Describe infrastructure declaratively and review changes before applying them.",tagline:"Terraform turns clicking into a plan you can review.",modules:[
+          {id:"p3-s1-m1",title:"Terraform basics",objective:"Use providers, variables, resources, plan, and apply safely.",url:"https://developer.hashicorp.com/terraform/tutorials",tasks:[
+            ["learn","Complete a HashiCorp Terraform getting-started tutorial.",45],
+            ["build","Write a small Terraform configuration with variables and outputs.",45],
+            ["recall","Explain plan versus apply and why state must be protected.",20]
+          ]},
+          {id:"p3-s1-m2",title:"Containers with Docker",objective:"Build, run, inspect, and publish a small image.",url:"https://docs.docker.com/get-started/",tasks:[
+            ["learn","Complete Docker's getting-started material on images and containers.",45],
+            ["build","Containerize a static or tiny API service with a readable Dockerfile.",45],
+            ["teach","Write a five-line explanation of image versus container.",20]
+          ]}
+        ]},
+        {id:"p3-s2",title:"Stage 3-2: Continuous delivery",weeks:"Weeks 32–39",objective:"Automate tests and deployment with a visible, repeatable pipeline.",tagline:"The pipeline is a robot that remembers the steps you forget.",modules:[
+          {id:"p3-s2-m1",title:"CI/CD with GitHub Actions",objective:"Trigger checks on pull requests and protect the main branch.",url:"https://docs.github.com/en/actions",tasks:[
+            ["learn","Read the GitHub Actions overview and identify workflow, job, and step.",30],
+            ["build","Add a workflow that runs a lint or smoke check on pull requests.",45],
+            ["recall","Explain why a green check is evidence, not decoration.",15]
+          ]},
+          {id:"p3-s2-m2",title:"Project: Pipeline Picnic",objective:"Ship a containerized service through a documented CI/CD path.",url:"https://aws.amazon.com/codepipeline/",tasks:[
+            ["project","Create the service repo with an architecture diagram and task board.",30],
+            ["project","Build the image and run tests automatically on every pull request.",60],
+            ["project","Deploy a demo, add rollback notes, and capture a cost estimate.",45]
+          ]}
+        ]}
+      ]},
+      {id:"p4",num:4,title:"Associate Mastery & Career Launch",weeks:"Months 10–12",objective:"Operate and improve a production-shaped system, pass an associate exam, and present a credible portfolio.",tagline:"The final world: fewer tutorials, more trade-offs and receipts.",boss:{name:"The Interview Golem",taunt:"Show me the diagram, the failure mode, and the cost.",win:"Your portfolio, mock interview, and AWS Certified Solutions Architect – Associate (SAA-C03) prep pass the gate."},subs:[
+        {id:"p4-s1",title:"Stage 4-1: Associate depth",weeks:"Weeks 40–44",objective:"Design resilient, secure, observable AWS architectures and defend trade-offs.",tagline:"Architecture is choosing which problem you want to own on purpose.",modules:[
+          {id:"p4-s1-m1",title:"Solutions Architect Associate path",objective:"Apply the Well-Architected pillars to realistic designs.",url:"https://aws.amazon.com/certification/certified-solutions-architect-associate/",tasks:[
+            ["learn","Start the official SAA-C03 exam guide or Learning Plan and map each domain.",45],
+            ["build","Design a highly available web workload with a written trade-off table.",45],
+            ["teach","Explain one security and one cost decision in five lines.",20]
+          ]},
+          {id:"p4-s1-m2",title:"Official practice and review",objective:"Use timed practice to target weak domains before exam day.",url:"https://aws.amazon.com/certification/certification-prep/",tasks:[
+            ["recall","Complete an official practice set under timed conditions.",45],
+            ["learn","Review missed answers using service documentation, not answer memorization.",30],
+            ["build","Create a final two-week exam calendar with sleep and review blocks.",15]
+          ]}
+        ]},
+        {id:"p4-s2",title:"Stage 4-2: Career launch",weeks:"Weeks 45–52",objective:"Package project evidence, practice incident stories, and apply with clarity.",tagline:"The final boss is mostly explaining what you built without opening 17 tabs.",modules:[
+          {id:"p4-s2-m1",title:"Project: Greenlight Grid",objective:"Deliver a resilient, cost-aware platform demo and portfolio case study.",url:"https://aws.amazon.com/architecture/",tasks:[
+            ["project","Define the architecture, threat model, and success metrics for Greenlight Grid.",30],
+            ["project","Provision, deploy, monitor, and document the platform.",60],
+            ["project","Publish README, diagram, cost note, and three lessons learned.",45]
+          ]},
+          {id:"p4-s2-m2",title:"Interview and applications",objective:"Tell concise stories about impact, trade-offs, and learning.",url:"https://www.amazon.jobs/content/en/our-workplace/leadership-principles",tasks:[
+            ["teach","Write three STAR stories: outage, automation win, and trade-off.",30],
+            ["recall","Explain your favorite project to a non-technical listener in 60 seconds.",15],
+            ["build","Apply to one role with a tailored portfolio link and reflection note.",30]
+          ]}
+        ]}
+      ]}
+    ];
+    phases.forEach(phase => phase.subs.forEach(sub => {
+      sub.modules.push({id:sub.id+"-rewind",title:"Rewind Quest",objective:"Revisit and retrieve the key ideas from this stage without notes.",url:"https://aws.amazon.com/training/",tasks:[
+        ["recall","Spend 20 minutes explaining the stage's three most useful ideas aloud.",20]
+      ]});
+    }));
+    const projects = [
+      {phase:2,code:"LOG-LANTERN",title:"Log Lantern // the observability campfire",objective:"Build a small Linux health-check and AWS monitoring story that a hiring manager can run.",services:"EC2 or a local container, CloudWatch, IAM, S3",steps:[["project","Create the repo and architecture sketch.",30],["project","Add a Bash check, sample logs, and runbook.",30],["project","Add a cost note, screenshots, and lessons learned.",30]],showcase:"README outline, architecture diagram, cost note, incident timeline, lessons learned."},
+      {phase:3,code:"PIPELINE-PICNIC",title:"Pipeline Picnic // lunch is automated",objective:"Containerize a small service and ship it through a visible pull-request pipeline.",services:"Docker, GitHub Actions, ECR, ECS or a static hosting target",steps:[["project","Write the Dockerfile and a smoke test.",30],["project","Run CI on pull requests and publish an image.",45],["project","Deploy a demo and document rollback.",45]],showcase:"README outline, pipeline screenshot, architecture diagram, cost note, rollback notes."},
+      {phase:4,code:"GREENLIGHT-GRID",title:"Greenlight Grid // production-shaped, budget-aware",objective:"Design and explain a resilient AWS workload with security, observability, and cost controls.",services:"VPC, IAM, ALB, compute, S3, CloudWatch, budgets",steps:[["project","Draw the architecture and list failure modes.",30],["project","Provision and deploy the smallest useful version.",60],["project","Add monitoring, cost controls, and a demo script.",45]],showcase:"README outline, architecture diagram, cost note, threat model, lessons learned."}
+    ];
+
+    const KEY = "cloudbound-roadmap-v1";
+    const defaultState = () => ({done:{}, jokes:true, readable:false, sound:false, streak:0, lastWeek:null, studyPlan:"", planner:{video:30,lab:50,review:20}, lastToast:-1, eggs:{konami:false,dance:false}});
+    let state = defaultState(), storageOK = true, audioCtx;
+    const allTasks = [];
+    phases.forEach(p => p.subs.forEach(s => s.modules.forEach(m => m.tasks.forEach((t,i) => allTasks.push({id:`${m.id}-t${i+1}`,type:t[0],text:t[1],minutes:t[2],phase:p.id,sub:s.id,module:m.id})))));
+    projects.forEach((p,pi) => p.steps.forEach((t,i) => allTasks.push({id:`project-${pi+1}-t${i+1}`,type:t[0],text:t[1],minutes:t[2],phase:`p${p.phase}`,sub:null,module:null,project:true})));
+    const $ = id => document.getElementById(id);
+    function loadState() { try { const raw=localStorage.getItem(KEY); if(raw) state={...defaultState(),...JSON.parse(raw)}; } catch(e) { storageOK=false; toast("Storage unavailable. Your browser refuses to remember things, relatable. Progress won't be saved this session; use Export to keep it.", true); } }
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) { storageOK=false; } }
+    function joke(pair) { return state.jokes ? pair[0] : pair[1]; }
+    function xpValue(type) { return type==="learn"?10:type==="build"?20:type==="project"?30:15; }
+    function progress() { const done=allTasks.filter(t=>state.done[t.id]).length; return {done,total:allTasks.length,pct:Math.round(done/allTasks.length*100)}; }
+    function currentXP() {
+      let xp=allTasks.reduce((sum,t)=>sum+(state.done[t.id]?xpValue(t.type):0),0);
+      phases.forEach(p=>p.subs.forEach(s=>s.modules.forEach(m=>{ if(m.tasks.every((_,i)=>state.done[`${m.id}-t${i+1}`])) xp+=25; })));
+      phases.forEach(p=>{ const ids=allTasks.filter(t=>t.phase===p.id); if(ids.length && ids.every(t=>state.done[t.id])) xp+=150; });
+      phases.forEach(p=>p.subs.forEach(s=>{ const ids=allTasks.filter(t=>t.sub===s.id); if(ids.length && ids.every(t=>state.done[t.id])) xp+=50; }));
+      return xp;
+    }
+    function rankFor(xp) { return [...RANKS].reverse().find(r=>xp>=r.min)||RANKS[0]; }
+    function renderHUD() {
+      const xp=currentXP(), rank=rankFor(xp), next=RANKS.find(r=>r.min>xp), p=progress();
+      $("rankBadge").textContent=rank.sprite; $("rankName").textContent=rank.name; $("rankSubtitle").textContent=rank.sub;
+      $("xpText").textContent=`${xp} XP`; $("nextXp").textContent=next?`${next.min-xp}`:"MAX";
+      $("progressBar").innerHTML=Array.from({length:24},(_,i)=>`<i class="${i<Math.round(p.pct/100*24)?"on":""}"></i>`).join("");
+      $("progressBar").setAttribute("aria-valuenow",p.pct); $("streak").textContent=state.streak;
+      $("jokesBtn").textContent=`Jokes: ${state.jokes?"On":"Off"}`; $("readableBtn").textContent=`Readable: ${state.readable?"On":"Off"}`; $("soundBtn").textContent=`Sound: ${state.sound?"On":"Off"}`;
+      document.body.classList.toggle("readable",state.readable);
+    }
+    function taskHTML(task) {
+      const checked=!!state.done[task.id], label=task.type==="project"?"PROJECT":task.type.toUpperCase();
+      return `<li class="task ${checked?"done":""}" data-task="${task.id}"><input type="checkbox" id="${task.id}" ${checked?"checked":""} aria-label="${task.text}"><label class="task-text" for="${task.id}">${task.text}</label><span class="task-type">${label} · ${task.minutes}m · +${xpValue(task.type)} XP</span></li>`;
+    }
+    function renderCurriculum() {
+      $("curriculum").innerHTML=phases.map(p=>`<details class="panel phase" data-level="${p.num}" id="${p.id}" open><summary><div class="summary-row"><div class="summary-main"><span class="icon-box">${ICONS.phase}${p.num}</span><div><h3>WORLD ${p.num}: ${p.title}</h3><div class="tagline">${p.tagline}</div><div class="objective"><strong>Grand objective:</strong> ${p.objective}</div></div></div><span class="badge" data-summary="${p.id}">0%</span></div></summary><div class="grid grid-2">${p.subs.map(s=>`<details class="subphase" data-sub="${s.id}" open><summary><div class="summary-row"><div class="summary-main"><span class="icon-box">${ICONS.sub}</span><div><h4>${s.title}</h4><div class="tagline">${s.tagline}</div><div><strong>Objective:</strong> ${s.objective} <span class="muted">(${s.weeks})</span></div></div></div><span class="badge" data-summary="${s.id}">0%</span></div></summary>${s.modules.map(m=>`<div class="module" data-module="${m.id}"><h5><span class="icon-box">${ICONS.module}</span> QUEST: ${m.title}</h5><p>${m.objective} <a href="${m.url}" target="_blank" rel="noopener">Open official resource ↗</a></p><ul class="tasks">${m.tasks.map((t,i)=>taskHTML({id:`${m.id}-t${i+1}`,type:t[0],text:t[1],minutes:t[2]})).join("")}</ul></div>`).join("")}</details>`).join("")}</div><div class="callout"><strong>REWIND QUEST:</strong> Retrieval beats rereading. Spend 20 minutes explaining the stage's key ideas aloud.</div><div class="panel boss" data-boss="${p.id}"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="${p.num===4?"#c77dff":"#ff6677"}" d="M3 4h2V2h2v2h2V1h2v3h2v2h1v5h-2v2H4v-2H2V6h1z"/><path fill="#080d1c" d="M5 7h2v2H5zm4 0h2v2H9z"/><path fill="#ffd166" d="M6 11h4v1H6z"/></svg><div><h3>BOSS BATTLE: ${p.boss.name}</h3><p class="boss-taunt">${p.boss.taunt}</p><p class="boss-win">${p.boss.win}</p><span class="badge">Reward: +150 XP</span></div></div></details>`).join("");
+      updateSummary();
+    }
+    function renderProjects() {
+      $("projectGrid").innerHTML=projects.map((p,pi)=>`<article class="panel project"><div class="eyebrow">WORLD ${p.phase} BLUEPRINT</div><div class="project-chest" aria-hidden="true">🧰</div><h3>${p.code}: ${p.title}</h3><p><strong>Objective:</strong> ${p.objective}</p><p><strong>AWS services used:</strong> ${p.services}</p><h4>Step-by-step build</h4><ul class="tasks">${p.steps.map((t,i)=>taskHTML({id:`project-${pi+1}-t${i+1}`,type:t[0],text:t[1],minutes:t[2]})).join("")}</ul><p class="callout"><strong>HOW TO SHOWCASE ON GITHUB:</strong> ${p.showcase}</p></article>`).join("");
+    }
+    function updateSummary() {
+      phases.forEach(p=>{ const ids=allTasks.filter(t=>t.phase===p.id), done=ids.filter(t=>state.done[t.id]).length; const el=document.querySelector(`[data-summary="${p.id}"]`); if(el) el.textContent=`${Math.round(done/ids.length*100)}%`; p.subs.forEach(s=>{const si=allTasks.filter(t=>t.sub===s.id),sd=si.filter(t=>state.done[t.id]).length, se=document.querySelector(`[data-summary="${s.id}"]`); if(se) se.textContent=`${Math.round(sd/si.length*100)}%`;}); const boss=document.querySelector(`[data-boss="${p.id}"]`); if(boss) boss.classList.toggle("defeated",ids.length&&ids.every(t=>state.done[t.id]));});
+    }
+    let toastIndex=-1;
+    function toast(message, plain=false) { const el=document.createElement("div"); el.className="toast"; el.innerHTML=`<strong>${plain?"SAVE NOTICE":"QUEST LOG"}</strong><br>${message}`; $("toasts").append(el); setTimeout(()=>el.remove(),4800); }
+    function confetti() { if(matchMedia("(prefers-reduced-motion: reduce)").matches) return; const colors=["#ffd166","#f28c28","#35d07f","#7bdff2","#c77dff"]; for(let i=0;i<32;i++){const c=document.createElement("i");c.className="confetti";c.style.left=`${Math.random()*100}vw`;c.style.background=colors[i%colors.length];c.style.animationDelay=`${Math.random()*.5}s`;document.body.append(c);setTimeout(()=>c.remove(),2400);}}
+    function beep(freq=440,duration=.08) { if(!state.sound) return; try { audioCtx ||= new (window.AudioContext||window.webkitAudioContext)(); const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type="square";o.frequency.value=freq;g.gain.value=.03;o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration); } catch(e) {} }
+    function handleTask(id,checked) {
+      const before=progress().pct; if(checked) state.done[id]=true; else delete state.done[id]; save(); renderHUD(); updateSummary();
+      if(checked){ toast(joke(HUMOR.toasts[(toastIndex=(toastIndex+1)%HUMOR.toasts.length)])); beep(660); const after=progress().pct; if(after>before && (after===100 || after%25===0)){toast(state.jokes?(after===100?"THE END... OR IS IT? You cleared the roadmap. Now build something weird and useful.":"STAGE CLEAR! The map gets bigger; your excuses get smaller."):(after===100?"Roadmap complete. Continue with projects and applications.":"Milestone complete. Continue to the next stage."));confetti();beep(880,.16);} }
+    }
+    function renderStory() { const lines=HUMOR.story.map(x=>joke(x)).join(" "); const node=$("storyText"); if(matchMedia("(prefers-reduced-motion: reduce)").matches){node.textContent=lines;return;} let i=0; const tick=()=>{node.textContent=lines.slice(0,i++);if(i<=lines.length)setTimeout(tick,10)};tick(); }
+    function findTask(min) { return allTasks.find(t=>!state.done[t.id]&&t.minutes<=min)||allTasks.find(t=>!state.done[t.id]); }
+    function openOverlay(title,text,timer=0) { $("overlayTitle").textContent=title;$("overlayText").textContent=text;$("overlay").classList.add("show");let left=timer; $("countdown").textContent=left?`${left}:00`:""; if(timer){ const int=setInterval(()=>{left--; $("countdown").textContent=`${left}:00`; if(left<=0){clearInterval(int);$("countdown").textContent="Challenge complete. Tiny victory achieved."; }},60000); } }
+    function updatePlanner() { const v=+$("videoRange").value,l=+$("labRange").value,r=Math.max(0,100-v-l); $("reviewRange").value=r; $("videoVal").textContent=`${v}%`;$("labVal").textContent=`${l}%`;$("reviewVal").textContent=`${r}%`;state.planner={video:v,lab:l,review:r};save(); }
+    function init() {
+      loadState(); renderCurriculum(); renderProjects(); renderHUD(); renderStory();
+      document.addEventListener("change",e=>{if(e.target.matches(".task input")) handleTask(e.target.id,e.target.checked);});
+      $("startBtn").onclick=()=>document.querySelector("#roadmap").scrollIntoView({behavior:"smooth"});
+      $("nextBtn").onclick=()=>{const t=findTask(60);if(!t)return openOverlay("THE END... OR IS IT?","Every objective is complete. Your next quest is a portfolio polish pass.");const el=document.getElementById(t.id);el?.scrollIntoView({behavior:"smooth",block:"center"});el?.focus();};
+      $("jokesBtn").onclick=()=>{state.jokes=!state.jokes;save();renderHUD();renderStory();};
+      $("readableBtn").onclick=()=>{state.readable=!state.readable;save();renderHUD();};
+      $("soundBtn").onclick=()=>{state.sound=!state.sound;save();renderHUD();beep(520);};
+      $("expandBtn").onclick=()=>document.querySelectorAll("details").forEach(d=>d.open=true);
+      $("collapseBtn").onclick=()=>document.querySelectorAll("details").forEach(d=>d.open=false);
+      $("rankBadge").onclick=()=>{state.eggs.dance=true;save();$("mascot").classList.add("level-up");toast("Mascot dance unlocked. The terminal traveler has questionable rhythm.");setTimeout(()=>$("mascot").classList.remove("level-up"),1400);};
+      $("rankBadge").onkeydown=e=>{if(e.key==="Enter"||e.key===" ")$("rankBadge").click();};
+      $("distractedBtn").onclick=()=>openOverlay("DISTRACTION DETECTOR", HUMOR.distract[Math.floor(Math.random()*HUMOR.distract.length)],5);
+      $("overlayClose").onclick=()=>$("overlay").classList.remove("show");
+      document.querySelectorAll(".sessionBtn").forEach(b=>b.onclick=()=>{const t=findTask(+b.dataset.min);$("sessionPick").innerHTML=t?`<strong>${t.minutes}-minute quest:</strong> ${t.text}<br><button type="button" class="jump" data-id="${t.id}">Jump to objective</button>`:"All matching quests are complete. Pick a larger time box.";});
+      $("sessionPick").onclick=e=>{if(e.target.matches(".jump")){const el=document.getElementById(e.target.dataset.id);el?.scrollIntoView({behavior:"smooth",block:"center"});}};
+      $("studyPlan").value=state.studyPlan;$("studyPlan").oninput=e=>{state.studyPlan=e.target.value;save();};
+      $("videoRange").value=state.planner.video;$("labRange").value=state.planner.lab;updatePlanner();["videoRange","labRange","reviewRange"].forEach(id=>$(id).oninput=updatePlanner);
+      document.querySelectorAll(".preset").forEach(b=>b.onclick=()=>{if(b.dataset.preset==="minimum"){ $("videoRange").value=35;$("labRange").value=45;} else if(b.dataset.preset==="catchup"){ $("videoRange").value=20;$("labRange").value=60;} else {$("videoRange").value=30;$("labRange").value=50;}updatePlanner();$("plannerNote").innerHTML=b.dataset.preset==="catchup"?"<strong>Catch-up Week:</strong> Falling behind is a scheduling event, not a character flaw. Pick one lab and keep moving.":"<strong>Builder Pro-Tip:</strong> Protect the lab block first. Motivation is a flaky service; calendars are boring but highly available.";});
+      $("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify({version:1,state},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="cloudbound-progress.json";a.click();URL.revokeObjectURL(a.href);};
+      $("importBtn").onclick=()=>$("importFile").click();$("importFile").onchange=e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);if(!data.state||typeof data.state.done!=="object")throw Error("Invalid");state={...defaultState(),...data.state};save();renderCurriculum();renderProjects();renderHUD();toast("Save file imported. The quest log remembers.");}catch(err){toast("That save file is not valid JSON for this roadmap.",true);}};reader.readAsText(file);};
+      $("resetBtn").onclick=()=>{if(confirm("GAME OVER - Erase save file?\n\nThere is no undo, and no, sudo won't help.")){state=defaultState();save();renderCurriculum();renderProjects();renderHUD();toast("New save slot created. Every legend starts at 0 XP.");}};
+      let konami=[];const code=["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];document.addEventListener("keydown",e=>{konami.push(e.key);konami=konami.slice(-10);if(konami.join(",")===code.join(",")){if(!state.eggs.konami){state.eggs.konami=true;save();confetti();toast("Konami code accepted. Pixel rain deployed.");}}if(e.key.toLowerCase()==="s"&&e.ctrlKey){}});
+      document.addEventListener("input",e=>{if(e.target.matches("input,textarea"))return;});
+      document.addEventListener("keydown",e=>{if(e.key.toLowerCase()==="u"&&e.ctrlKey){}});
+      const keys=[];document.addEventListener("keypress",e=>{keys.push(e.key);if(keys.join("").slice(-4)==="sudo"){toast("Nice try. You have to earn root by finishing Phase 4.");}});
+      $("mascot").innerHTML='<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="#080d1c" d="M4 2h8v2h2v8h-2v2H4v-2H2V4h2z"/><path fill="#fff2cf" d="M5 4h6v7H5z"/><path fill="#35d07f" d="M6 6h1v1H6zm3 0h1v1H9z"/><path fill="#f28c28" d="M7 9h2v1H7z"/></svg>';
+    }
+    init();
+  </script>
+</body>
+</html>
